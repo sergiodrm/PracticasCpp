@@ -142,6 +142,21 @@ void CList::Reset()
   m_uListSize = 0;
 }
 
+void CList::PrintList(const char* _sSeparator) const
+{
+  if (_sSeparator)
+  {
+    CNode* pIndexNode = m_pHead;
+    while (pIndexNode != nullptr)
+    {
+      printf("%s", pIndexNode->GetData());
+      pIndexNode = pIndexNode->GetNextNode();
+      if (pIndexNode)
+        printf("%s", _sSeparator);
+    }
+  }
+}
+
 void CList::CopyList(const CList& _rOther)
 {
   /* Hacer una copia de cada uno de los nodos de la lista pasada por parametro */

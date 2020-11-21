@@ -1,6 +1,10 @@
 #pragma once
 
 
+// Forward declaration para la practica 10
+class CList;
+
+
 namespace FileUtilities
 {
   // Forward declaration.
@@ -68,4 +72,20 @@ namespace FileUtilities
   * @return: suma de los enteros encontrados.
   */
   int AddIntsInFile(const FID& _rFid, const char _cSeparator = ',');
+
+
+
+  // PRACTICA 10 --------------------------------------------------------------------------------------------
+
+
+
+  /*
+  * Funcion para leer desde un fichero de texto especificado una serie de numeros separados por coma
+  * y añadirlos a la lista pasada como parametro.
+  * @param _rFid: identificador del fichero.
+  * @param rDataList_: referencia a la lista donde se desean guardar los numeros leidos.
+  * @return: numero de elementos introducidos en la lista.
+  */
+  int GetListFromFile(const FID& _rFid, CList& rDataList_);
+
 }

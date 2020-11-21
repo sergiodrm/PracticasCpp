@@ -14,33 +14,27 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Lib">
-      <UniqueIdentifier>{4a6786f0-9b8f-46e6-9167-b723f5253012}</UniqueIdentifier>
+      <UniqueIdentifier>{01c2ae8a-607f-4221-a899-5efe53410a61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileUtilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Practica09\CList.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Practica07\FileUtilities.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
     <ClCompile Include="..\Practica09\CNode.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
+    <ClCompile Include="..\Practica07\StringUtility.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileUtilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StringUtility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="prueba sumar ints desde fichero.txt" />
-    <Text Include="prueba contar cadenas.txt" />
+    <Text Include="Prueba.txt" />
   </ItemGroup>
 </Project>

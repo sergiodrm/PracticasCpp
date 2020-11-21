@@ -21,6 +21,8 @@ public:
   const char* Pop();
   void Reset();
 
+  void PrintList(const char* _sSeparator = ", ") const;
+
 private:
 
   void CopyList(const CList& _rOther);
