@@ -157,9 +157,44 @@ void CList::PrintList(const char* _sSeparator) const
   }
 }
 
+//CList CList::GetReverseList(CList _lstSrc)
+//{
+//  if (_lstSrc.Size() == 0)
+//    return CList();
+//
+//  // TODO: Tabla de direcciones de nodo para hacer las redirecciones.
+//  // En la tabla se guardan todas las direcciones y se modifican desde ahi.
+//  const unsigned int uListSize = _lstSrc.Size();
+//  CNode** tListNodes = new CNode*[uListSize];
+//  unsigned int uIndex = 0;
+//  // Bucle para almacenar las direcciones de los nodos de la lista en la tabla de nodos
+//  while (_lstSrc.m_pIterator != nullptr)
+//  {
+//    tListNodes[uIndex] = _lstSrc.m_pIterator;
+//    _lstSrc.m_pIterator = _lstSrc.m_pIterator->GetNextNode();
+//    ++uIndex;
+//  }
+//
+//  // Bucle para redireccionar los enlaces entre los nodos
+//  for (uIndex = 0; uIndex < uListSize; ++uIndex)
+//  {
+//    CNode* pNextNode = uIndex == 0 ? nullptr : tListNodes[uIndex - 1];
+//    tListNodes[uIndex]->SetNextNode(pNextNode);
+//  }
+//
+//  // Redireccionar la cabeza de la lista
+//  _lstSrc.m_pHead = tListNodes[uListSize - 1];
+//  _lstSrc.m_pIterator = _lstSrc.m_pHead;
+//
+//  delete[] tListNodes; // Eliminar la tabla de direcciones creada en el heap
+//
+//  return _lstSrc;
+//}
+
 void CList::CopyList(const CList& _rOther)
 {
   /* Hacer una copia de cada uno de los nodos de la lista pasada por parametro */
   m_pHead = new CNode(*(_rOther.m_pHead));
   m_pIterator = m_pHead;
+  m_uListSize = _rOther.m_uListSize;
 }

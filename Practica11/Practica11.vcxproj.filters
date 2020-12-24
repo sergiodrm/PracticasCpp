@@ -14,27 +14,18 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Lib">
-      <UniqueIdentifier>{01c2ae8a-607f-4221-a899-5efe53410a61}</UniqueIdentifier>
+      <UniqueIdentifier>{832af666-56ca-49aa-b10d-9d21e24db1dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Practica07\FileUtilities.cpp">
+    <ClCompile Include="..\Practica09\CList.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
     <ClCompile Include="..\Practica09\CNode.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
-    <ClCompile Include="..\Practica07\StringUtility.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Practica09\CList.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Prueba.txt" />
   </ItemGroup>
 </Project>
