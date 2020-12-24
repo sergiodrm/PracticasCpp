@@ -1,1 +1,2 @@
-"# Practicas Cpp - Programacion de Videojuegos" 
+# Cpp practises - in progress
+
