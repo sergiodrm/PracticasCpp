@@ -59,6 +59,7 @@ public:
 
   static CString Read(const CString& filename);
   void Write(const CString& filename, bool append = true) const;
+
 private:
 
   void Init(const char* _str);
@@ -66,6 +67,8 @@ private:
   static void Copy(const char* _origin, char* _destiny);
   static int Length(const char* _str);
   void Concatenate(const CString& _str);
+  static CString Concatenate(const CString& _str1, const CString& _str2);
+  static CString FromInt_Internal(int val);
 
 private:
 
