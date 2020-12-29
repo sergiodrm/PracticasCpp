@@ -27,9 +27,6 @@
     <ClCompile Include="..\Practica09\CList.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
-    <ClCompile Include="..\Practica09\CNode.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileUtilities.h">

@@ -1,14 +1,13 @@
 #include "CList.h"
-#include "CNode.h"
 #include <string>
+#include <assert.h>
 
 
 CList::CList() :
   m_pHead(nullptr),
   m_pIterator(nullptr),
   m_uListSize(0)
-{
-}
+{}
 
 CList::CList(const CList& _rOther)
 {
@@ -30,14 +29,14 @@ CList::~CList()
   Reset();
 }
 
-const CList& CList::operator=(const CList& _rOther)
+CList& CList::operator=(const CList& _rOther)
 {
   Reset();
   CopyList(_rOther);
   return *this;
 }
 
-const CList& CList::operator=(CList&& _rOther)
+CList& CList::operator=(CList&& _rOther)
 {
   Reset();
   // Robar los punteros
@@ -56,28 +55,29 @@ unsigned int CList::Size() const
 
 int CList::Push(const char* _sData)
 {
-  if (_sData)
+  assert(_sData != nullptr);
+  if (m_pHead)
   {
-    if (m_pHead)
+    // Crear un ptr para recorrer la lista y no tener que modificar la posicion de m_pIterator
+    SNode* pIt = m_pHead;
+    // Buscar el ultimo elemento de la lista actual
+    while (pIt->GetNextNode() != nullptr)
     {
-      // Crear un ptr para recorrer la lista y no tener que modificar la posicion de m_pIterator
-      CNode* pIt = m_pHead;
-      // Buscar el ultimo elemento de la lista actual
-      while (pIt->GetNextNode() != nullptr)
-      {
-        pIt = pIt->GetNextNode();
-      }
-      // Cambiar la referencia del siguiente nodo al elemento creado
-      pIt->SetNextNode(new CNode(_sData, nullptr));
+      pIt = pIt->GetNextNode();
     }
-    else
-    {
-      m_pHead = new CNode(_sData, nullptr);
-      m_pIterator = m_pHead;
-    }
-    return ++m_uListSize;
+    // Cambiar la referencia del siguiente nodo al elemento creado
+    pIt->m_pNext = new SNode();
+    pIt->m_pNext->m_sData = CopyData(_sData);
   }
-  else return -1;
+  else
+  {
+    m_pHead = new SNode();
+    m_pHead->m_sData = CopyData(_sData);
+    m_pHead->m_pNext = nullptr;
+    m_pIterator = m_pHead;
+  }
+  ++m_uListSize;
+  return m_uListSize;
 }
 
 const char* CList::First() const
@@ -91,6 +91,7 @@ const char* CList::First() const
 
 const char* CList::Next()
 {
+  assert(m_pIterator != nullptr);
   const char* sData_ = m_pIterator->GetData();
   if (m_pIterator->GetNextNode() == nullptr)
   {
@@ -105,22 +106,17 @@ const char* CList::Next()
 
 const char* CList::Pop()
 {
-  // Comprobar que los punteros no son nullptr
-  if (m_pHead && m_pIterator)
+  if (m_pHead)
   {
     // Guardar el siguiente nodo del head para referenciarlo luego
-    CNode* pNextHead = m_pHead->GetNextNode();
+    SNode* pNextHead = m_pHead->GetNextNode();
     if (m_pHead == m_pIterator)
     {
       m_pIterator = pNextHead;
     }
 
-    // Por como se ha diseñado CNode, se pueden referenciar los punteros del dato
-    // y hacer un FreeData para que cuando se haga un delete no borrar toda la lista.
-    const char* sOutput_ = m_pHead->GetData();
-    m_pHead->FreeData();
-
-    // Ahora es seguro hacer un delete sin borrar ni el dato ni los siguientes nodos
+    const char* sOutput_ = CopyData(m_pHead->GetData());
+    delete m_pHead->m_sData;
     delete m_pHead;
     m_pHead = pNextHead;
     m_uListSize--;
@@ -132,12 +128,13 @@ const char* CList::Pop()
 
 void CList::Reset()
 {
-  /*
-  * Tal como se ha diseñado CNode, al hacer un delete de
-  * m_pHead, se hara un delete de todos los nodos enlazados.
-  */
-  if (m_pHead) delete m_pHead;
-  m_pHead = nullptr;
+  while (m_pHead != nullptr)
+  {
+    SNode* pNext = m_pHead->GetNextNode();
+    delete m_pHead->m_sData;
+    delete m_pHead;
+    m_pHead = pNext;
+  }
   m_pIterator = nullptr;
   m_uListSize = 0;
 }
@@ -146,7 +143,7 @@ void CList::PrintList(const char* _sSeparator) const
 {
   if (_sSeparator)
   {
-    CNode* pIndexNode = m_pHead;
+    SNode* pIndexNode = m_pHead;
     while (pIndexNode != nullptr)
     {
       printf("%s", pIndexNode->GetData());
@@ -162,39 +159,88 @@ void CList::PrintList(const char* _sSeparator) const
 //  if (_lstSrc.Size() == 0)
 //    return CList();
 //
-//  // TODO: Tabla de direcciones de nodo para hacer las redirecciones.
-//  // En la tabla se guardan todas las direcciones y se modifican desde ahi.
-//  const unsigned int uListSize = _lstSrc.Size();
-//  CNode** tListNodes = new CNode*[uListSize];
-//  unsigned int uIndex = 0;
-//  // Bucle para almacenar las direcciones de los nodos de la lista en la tabla de nodos
-//  while (_lstSrc.m_pIterator != nullptr)
+//  CList reversedList;
+//
+//  SNode* pIndex = new SNode();
+//  assert(pIndex != nullptr);
+//  SNode* pReverseIndex = GetPreviousNode(_lstSrc, nullptr);
+//  assert(pReverseIndex != nullptr);
+//  pIndex->m_sData = CopyData(pReverseIndex->GetData());
+//  reversedList.m_pHead = pIndex;
+//  reversedList.m_pIterator = pIndex;
+//  reversedList.m_uListSize++;
+//
+//  while (pReverseIndex != _lstSrc.m_pHead)
 //  {
-//    tListNodes[uIndex] = _lstSrc.m_pIterator;
-//    _lstSrc.m_pIterator = _lstSrc.m_pIterator->GetNextNode();
-//    ++uIndex;
+//    pReverseIndex = GetPreviousNode(_lstSrc, pReverseIndex);
+//    assert(pReverseIndex != nullptr);
+//    pIndex->m_pNext = new SNode();
+//    assert(pIndex != nullptr);
+//    pIndex = pIndex->GetNextNode();
+//    pIndex->m_sData = CopyData(pReverseIndex->GetData());
 //  }
-//
-//  // Bucle para redireccionar los enlaces entre los nodos
-//  for (uIndex = 0; uIndex < uListSize; ++uIndex)
-//  {
-//    CNode* pNextNode = uIndex == 0 ? nullptr : tListNodes[uIndex - 1];
-//    tListNodes[uIndex]->SetNextNode(pNextNode);
-//  }
-//
-//  // Redireccionar la cabeza de la lista
-//  _lstSrc.m_pHead = tListNodes[uListSize - 1];
-//  _lstSrc.m_pIterator = _lstSrc.m_pHead;
-//
-//  delete[] tListNodes; // Eliminar la tabla de direcciones creada en el heap
-//
-//  return _lstSrc;
+//  return reversedList;
 //}
+
+CList CList::GetReverseList() const
+{
+  assert(m_pHead != nullptr);
+  CList reversedList;
+
+  SNode* pIndex = new SNode();
+  assert(pIndex != nullptr);
+  SNode* pReverseIndex = GetPreviousNode(*this, nullptr);
+  assert(pReverseIndex != nullptr);
+  pIndex->m_sData = CopyData(pReverseIndex->GetData());
+  reversedList.m_pHead = pIndex;
+  reversedList.m_pIterator = pIndex;
+  reversedList.m_uListSize++;
+
+  while (pReverseIndex != m_pHead)
+  {
+    pReverseIndex = GetPreviousNode(*this, pReverseIndex);
+    assert(pReverseIndex != nullptr);
+    pIndex->m_pNext = new SNode();
+    assert(pIndex != nullptr);
+    pIndex = pIndex->GetNextNode();
+    pIndex->m_sData = CopyData(pReverseIndex->GetData());
+  }
+  return reversedList;
+}
 
 void CList::CopyList(const CList& _rOther)
 {
-  /* Hacer una copia de cada uno de los nodos de la lista pasada por parametro */
-  m_pHead = new CNode(*(_rOther.m_pHead));
+  m_pHead = new SNode();
   m_pIterator = m_pHead;
-  m_uListSize = _rOther.m_uListSize;
+  m_uListSize = 1;
+  m_pHead->m_sData = CopyData(_rOther.m_pHead->GetData());
+  SNode* pIndex = m_pHead;
+  SNode* pIndexOther = _rOther.m_pHead->GetNextNode();
+  while (pIndexOther != nullptr)
+  {
+    pIndex->m_pNext = new SNode();
+    assert(pIndex->GetNextNode() != nullptr);
+    pIndex->m_pNext->m_sData = CopyData(pIndexOther->GetData());
+    pIndex = pIndex->GetNextNode();
+    pIndexOther = pIndexOther->GetNextNode();
+    m_uListSize++;
+  }
+}
+
+char* CList::CopyData(const char* _sData)
+{
+  assert(_sData != nullptr);
+  char* copiedData = new char[strlen(_sData) + 1];
+  strcpy(copiedData, _sData);
+  return copiedData;
+}
+
+SNode* CList::GetPreviousNode(const CList& _list, const SNode* _pNode)
+{
+  SNode* pIndex = _list.m_pHead;
+  while (pIndex->GetNextNode() != _pNode)
+  {
+    pIndex = pIndex->GetNextNode();
+  }
+  return pIndex;
 }

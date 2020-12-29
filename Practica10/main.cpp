@@ -10,12 +10,10 @@
 
 int main()
 {
-  const char* sFilename = "Prueba.txt";
-
-
   printf("--- PRACTICA 10 ---");
   printf("\n\n\n\n");
 
+  const char* sFilename = "Prueba.txt";
   FileUtilities::FID pFileID = FileUtilities::OpenFile(sFilename, "r");
   if (!pFileID)
   {

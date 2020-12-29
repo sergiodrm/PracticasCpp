@@ -145,7 +145,6 @@
     <ClCompile Include="..\Practica07\FileUtilities.cpp" />
     <ClCompile Include="..\Practica07\StringUtility.cpp" />
     <ClCompile Include="..\Practica09\CList.cpp" />
-    <ClCompile Include="..\Practica09\CNode.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

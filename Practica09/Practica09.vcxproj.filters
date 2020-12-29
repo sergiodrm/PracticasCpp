@@ -23,9 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
