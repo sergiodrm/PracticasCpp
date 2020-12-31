@@ -19,7 +19,7 @@ void CMemoryLeakMonitor::Insert(const char* _sVarName, const char* _sFile, int _
   assert(_sVarName != nullptr && _sFile != nullptr);
 
   MemoryRegisterIterator iterator = m_memoryRegister.find(_sVarName);
-  if (iterator != m_memoryRegister.end())
+  if (iterator == m_memoryRegister.end())
   {
     std::pair<std::string, MemoryNewLocation> newItem(_sVarName, MemoryNewLocation(_sFile, _iLine));
     m_memoryRegister.insert(newItem);
@@ -47,8 +47,8 @@ void CMemoryLeakMonitor::CheckMemoryState() const
       int iLine(iterator->second.second);
       std::string sVarName(iterator->first);
       sprintf(outputString, "%s(%d) : %s is still in heap memory.\n", sFile.c_str(), iLine, sVarName.c_str());
-      OutputDebugString(reinterpret_cast<LPCWSTR>(outputString));
+      OutputDebugStringA(outputString);
     }
   }
-  else OutputDebugString(L"No vars in heap memory! :)\n");
+  else OutputDebugString(L"No vars in heap! :)\n");
 }
