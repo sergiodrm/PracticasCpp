@@ -11,7 +11,7 @@ CStream::~CStream()
   printf("Destruyendo stream base...\n");
 }
 
-void CStream::Open(const char* _sStreamName)
+void CStream::Open(const char* /*_sStreamName*/)
 {
   printf("Abriendo stream base...\n");
 }

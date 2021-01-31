@@ -143,7 +143,6 @@ CString CString::HexFromInt(int val)
 {
   // A partir de mascaras, sacar los conjuntos de 4 bytes para pasarlos a hex
   int iMasc = 0x000000F;
-  int iNumber = val;
   const int iShift = 4;
   CString hexString;
 
@@ -239,7 +238,7 @@ CString CString::Left(int n) const
 {
   // Devolver los primeros n caracteres empezando por la izquierda
   assert(m_pStr != nullptr);
-  assert(n < m_uSize);
+  assert(static_cast<unsigned int>(n) < m_uSize);
   char charSaved = m_pStr[n];
   m_pStr[n] = '\0';
   CString leftString(m_pStr);
@@ -251,7 +250,7 @@ CString CString::Right(int n) const
 {
   // Devolver los primeros n caracteres empezando por la derecha
   assert(m_pStr != nullptr);
-  assert(n < m_uSize);
+  assert(static_cast<unsigned int>(n) < m_uSize);
   CString rightString(m_pStr + m_uSize - 1 - n);
   return rightString;
 }
@@ -260,7 +259,7 @@ CString CString::Mid(int ofs, int n)
 {
   // Devolver n caracteres desde el numero ofs
   assert(m_pStr != nullptr);
-  assert(ofs + n < m_uSize);
+  assert(static_cast<unsigned int>(ofs + n) < m_uSize);
   char charSaved = m_pStr[ofs + n];
   m_pStr[ofs + n] = '\0';
   CString middleString(m_pStr + ofs);
@@ -290,7 +289,7 @@ int CString::Find(const CString& str, int ofs) const
   // Empezar a buscar la cadena str a partir del elemento ofs
   assert(m_pStr != nullptr);
   assert(str.m_pStr != nullptr);
-  assert(ofs < m_uSize);
+  assert(static_cast<unsigned int>(ofs) < m_uSize);
 
   int iWantedString = -1;
   if (m_uSize >= str.m_uSize)
@@ -395,7 +394,7 @@ CString CString::LSet(int len, char c) const
   char stringFill[] = { c,'\0' };
 
   CString leftFilledString(*this);
-  while (leftFilledString.m_uSize < len)
+  while (leftFilledString.m_uSize < static_cast<unsigned int>(len))
   {
     leftFilledString = CString(stringFill) + leftFilledString;
   }
@@ -406,7 +405,7 @@ CString CString::RSet(int len, char c) const
 {
   assert(m_pStr != nullptr);
   CString rightFilledString(*this);
-  while (rightFilledString.m_uSize < len)
+  while (rightFilledString.m_uSize < static_cast<unsigned int>(len))
   {
     rightFilledString += c;
   }
@@ -438,12 +437,12 @@ CString CString::RealPath() const
   return CString();
 }
 
-CString CString::Read(const CString& filename)
+CString CString::Read(const CString& /*filename*/)
 {
   return CString();
 }
 
-void CString::Write(const CString& filename, bool append) const
+void CString::Write(const CString& /*filename*/, bool /*append*/) const
 {
 }
 

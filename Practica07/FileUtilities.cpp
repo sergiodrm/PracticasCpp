@@ -7,7 +7,7 @@
 #include <string>
 
 // Para la practica 10 ---
-#include "CList.h"
+#include "../Practica09/CList.h"
 #include "StringUtility.h"
 // ---
 

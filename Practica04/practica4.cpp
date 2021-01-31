@@ -121,7 +121,7 @@ void MoveDiagonal(TEntity* _pEntity)
 // MAIN
 // ***************************************************************************************
 unsigned int uKey;
-int main(int argc, char* argv[])
+int main()
 {
   // Tabla de entidades y su longitud
   TEntity* tEntities[6] = { nullptr };

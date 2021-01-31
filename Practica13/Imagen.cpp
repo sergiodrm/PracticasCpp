@@ -12,7 +12,7 @@ CImagen::~CImagen()
 // **************************************************************
 //
 // **************************************************************
-int	CImagen::SetImageFile(const char *pszFile)
+int	CImagen::SetImageFile(const char* /*pszFile*/)
 {
 	printf("int	CImagen::SetImage(const char *pszFile)\n");
 	printf("Lectura del fichero descomprimido\n");

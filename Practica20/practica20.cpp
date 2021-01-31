@@ -10,7 +10,7 @@ std::list<TEntity*> g_tEntities;
 // MAIN
 // ***************************************************************************************
 
-int main(int argc, char* argv[])
+int main()
 {
   srand(static_cast<unsigned int>(time(nullptr)));
 

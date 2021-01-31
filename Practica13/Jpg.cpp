@@ -4,7 +4,7 @@
 // **************************************************************
 //
 // **************************************************************
-int CJpg::SetJpgFile(const char *pszJpgFile)
+int CJpg::SetJpgFile(const char* /*pszJpgFile*/)
 {
 	printf("Lectura del fichero comprimido JPG\n");
 	UncompressImage();

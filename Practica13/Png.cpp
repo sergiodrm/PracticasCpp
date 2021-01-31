@@ -5,7 +5,7 @@
 // **************************************************************
 //
 // **************************************************************
-int CPng::SetPngFile(const char *pszPngFile)
+int CPng::SetPngFile(const char* /*pszPngFile*/)
 {
 	printf("Lectura del fichero comprimido Png\n");
 	UncompressImage();

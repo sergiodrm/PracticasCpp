@@ -1,70 +1,78 @@
 
 #include <iostream>
 
-class CBaseNoVirtual
+class AVirtual
 {
+  int x;
 public:
-
-  CBaseNoVirtual() { printf("Creando CBaseNoVirtual\n"); }
-  ~CBaseNoVirtual() { printf("Destruyendo CBaseNoVirtual\n"); }
-
-  void PrintSize() { printf("Espacio de CBaseNoVirtual: %d bytes\n", sizeof(CBaseNoVirtual)); }
-
-  int integer = 0;
+  AVirtual() : x(0) { foo(); }
+  virtual ~AVirtual() {  }
+  virtual void foo() { printf("virtual foo\n"); }
+  virtual void foo2(){}
 };
 
-class CBase
+class ADerived : public AVirtual
 {
 public:
-
-  CBase() { 
-    printf("Creando CBase\n");
-    PrintSize();
-  }
-  virtual ~CBase() { printf("Destruyendo CBase\n"); }
-
-  virtual void PrintSize() { printf("Espacio de CBase: %d bytes\n", sizeof(CBase)); }
-
-  int integer = 0;
+  ADerived() { foo(); }
+  void foo() override { printf("virtual foo derived\n"); }
 };
 
-class CDerivedA : public CBase
+class A
 {
+  int x;
 public:
-  CDerivedA() 
-  { 
-    printf("Creando CDerivedA\n");
-    PrintSize();
-  }
-  virtual ~CDerivedA() { printf("Destruyendo CDerivedA\n"); }
-
-  virtual void PrintSize() { printf("Espacio de CDerivedA: %d bytes\n", sizeof(CDerivedA)); }
-};
-
-class CDerivedB : public CBase
-{
-public:
-  CDerivedB()
-  { 
-    printf("Creando CDerivedB\n"); 
-    PrintSize();
-  }
-  virtual ~CDerivedB() { printf("Destruyendo CDerivedB\n"); }
-
-  virtual void PrintSize() { printf("Espacio de CDerivedB: %d bytes\n", sizeof(CDerivedB)); }
-
+  A() : x(0) {}
+  ~A() {}
+  void foo() { printf("foo\n"); }
 };
 
 int main()
 {
-  CDerivedA* pA = new CDerivedA();
-  CDerivedB* pB = new CDerivedB();
+  AVirtual* pAV = new AVirtual();
+  A* pA = new A();
+  ADerived* pAD = new ADerived();
 
-  pA->PrintSize();
-  pB->PrintSize();
-  printf("%d bytes\n", sizeof(&(CBase::PrintSize)));
-  // Se hace un reinterpret_cast a int** porque los punteros de funciones se mueven cada 4 bytes
-  int** pVTableDerivedA = reinterpret_cast<int**>(pA);
+  /**
+   * El vptr es el primero en la zona de memoria de la instancia, por lo que
+   * haciendo un cast a int** tendremos un puntero a vptr.
+   */
+  int** pVirtualTable = reinterpret_cast<int**>(pAV);
+  /**
+   * La vtable tendra una entrada por cada metodo virtual de la clase,
+   * por lo que tendra 4 bytes * Numero de metodos virtuales.
+   * La vtable se genera durante el tiempo de compilacion, por lo que su ubicacion
+   * se encuentra en una zona de memoria estatica en el ejecutable.
+   */
+  printf("VTable direction: %08X\n", reinterpret_cast<int>(*pVirtualTable));
+  /**
+   * Diferencia de tamaños: al tener una clase un metodo virtual, automaticamente se genera la vtable
+   * de la clase y su correspondiente vptr. Este ultimo es un puntero oculto dentro de la instancia de la clase base y
+   * ocupa 4 bytes, por lo que la diferencia entre una clase virtual y no virtual será de 4 bytes.
+   */
+  printf("Clase no virtual: %d bytes\n", sizeof(*pA));
+  printf("Clase virtual:    %d bytes\n", sizeof(*pAV));
+
+  /**
+   * Al llamar a un metodo virtual desde el constructor el compilador ya ha añadido la
+   * tabla virtual de la clase por lo que se llamara a la version del metodo mas actualizada
+   * en la tabla.
+   */
+
+  /**
+   * La llamada a un metodo virtual de la clase consiste en mirar a traves del vptr la
+   * direccion almacenada en la vtable de la version mas sobreescrita del metodo virtual.
+   * Por el contrario, una llamada a un metodo no virtual unicamente es localizar la direccion
+   * del metodo en memoria y ejecutarlo.
+   * Se realiza un paso adicional, la busqueda del metodo a traves de la vtable.
+   */
+  pAV->foo();
+  pAD->foo();
+  pA->foo();
+
+  delete pAV;
+  delete pA;
+  delete pAD;
 
   return 0;
 }

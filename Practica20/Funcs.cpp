@@ -75,6 +75,7 @@ funcEntity Utils::GetRandomMovementFunction()
   case 2: return &Movement::MoveLeft;
   case 3: return &Movement::MoveRight;
   case 4: return &Movement::MoveDiagonal;
+  default: return nullptr;
   }
 }
 
@@ -87,6 +88,7 @@ funcEntity Utils::GetRandomDrawFunction()
   case 1: return &Draw::DrawBEntity;
   case 2: return &Draw::DrawCEntity;
   case 3: return &Draw::DrawDEntity;
+  default: return nullptr;
   }
 }
 

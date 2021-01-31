@@ -5,7 +5,7 @@
 // ***************************************************************************************
 void gotoxy(int x, int y) 
 { 
-    COORD pos = {x, y};
+    COORD pos = {static_cast<SHORT>(x), static_cast<SHORT>(y) };
     HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(output, pos);
 }

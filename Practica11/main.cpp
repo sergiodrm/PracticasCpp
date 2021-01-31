@@ -1,6 +1,6 @@
 
 #include <iostream>
-#include "CList.h"
+#include "../Practica09/CList.h"
 
 
 int main()

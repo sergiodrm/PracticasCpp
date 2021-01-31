@@ -1,7 +1,7 @@
 
 #include <iostream>
-#include "FileUtilities.h"
-#include "CList.h"
+#include "../Practica07/FileUtilities.h"
+#include "../Practica09/CList.h"
 
 
 /* La funcion para sacar los numeros del fichero de texto esta en el proyecto de la practica 7

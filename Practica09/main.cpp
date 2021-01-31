@@ -24,7 +24,7 @@ int main()
     printf("Borrando cadena \"%s\" de la lista.\n", oMyList.Pop());
     printf("Quedan %d cadenas.\n", oMyList.Size());
   }
-
+  printf("Lista copiada:\n");
   for (unsigned int uIndex = 0; uIndex < oMyCopyList.Size(); ++uIndex)
   {
     printf("-Elemento %d de %d: %s\n", uIndex, oMyCopyList.Size(), oMyCopyList.Next());

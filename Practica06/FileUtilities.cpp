@@ -78,7 +78,7 @@ int CountStringInFile(const FID& _rFid, const char* _sString)
 
       // Mientras que no se llegue hasta el numero de caracteres leidos o que no se haya encontrado
       // el caracter nulo al final del buffer, seguir chequeando los caracteres
-      while (uBufferStartIndexChecking < iCharRead && sBuffer[uBufferIndexChecking] != '\0')
+      while (static_cast<int>(uBufferStartIndexChecking) < iCharRead && sBuffer[uBufferIndexChecking] != '\0')
       {
         // Si se llega al final del string, sumar a las apariciones y reiniciar indices
         if (_sString[uStrIndexChecking] == '\0')
@@ -121,7 +121,7 @@ int AddIntsInFile(const FID& _rFid, const char _cSeparator)
   {
     iCharRead = ReadFile(_rFid, sBuffer, uSizeBuffer - 1);
     unsigned int uBufferIndex = 0;
-    while (uBufferIndex < iCharRead && sBuffer[uBufferIndex] != '\0')
+    while (static_cast<int>(uBufferIndex) < iCharRead && sBuffer[uBufferIndex] != '\0')
     {
       // Si el caracter leido coincide con el separador, sumar el numero almacenado en
       // el buffer numerico con el contador de la suma y reiniciar el buffer.
