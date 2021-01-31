@@ -4,16 +4,19 @@
 
 class CStream
 {
+protected:
+
+  typedef CStream Super;
+
 public:
 
   explicit CStream();
-  explicit CStream(const CStream&);
-  ~CStream();
+  virtual ~CStream();
 
-  virtual void Open(const char* _sStreamName) = 0;
-  virtual void Read() = 0;
-  virtual void Write() = 0;
-  virtual void Close() = 0;
+  virtual void Open(const char* _sStreamName);
+  virtual void Read();
+  virtual void Write();
+  virtual void Close();
 
 private:
 
