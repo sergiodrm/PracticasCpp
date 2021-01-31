@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "MyString.h"	
 #include <stdlib.h>
 #include <string.h>
@@ -42,7 +43,7 @@ void CMyString::Init(const char *pszString)
 	printf("CMyString::CMyString(const char *pszString): %s\n", pszString);
 	if (pszString)
 	{
-		m_uLen = strlen(pszString);
+		m_uLen = static_cast<unsigned int>(strlen(pszString));
 		m_pszBuffer = new char[m_uLen + 1];
 		strcpy(m_pszBuffer, pszString);
 	}
@@ -60,7 +61,7 @@ const CMyString &CMyString::operator=(const char *pszSrc)
 
 	if (pszSrc)
 	{
-		m_uLen = strlen(pszSrc);
+		m_uLen = static_cast<unsigned int>(strlen(pszSrc));
 		m_pszBuffer = new char[m_uLen + 1];
 		strcpy(m_pszBuffer, pszSrc);
 	}
@@ -79,7 +80,7 @@ const CMyString &CMyString::operator=(const CMyString& strSrc)
 
 	if (strSrc.m_pszBuffer)
 	{
-		m_uLen = strlen(strSrc.m_pszBuffer);
+		m_uLen = static_cast<unsigned int>(strlen(strSrc.m_pszBuffer));
 		m_pszBuffer = new char[m_uLen + 1];
 		strcpy(m_pszBuffer, strSrc.m_pszBuffer);
 	}
@@ -151,7 +152,7 @@ const CMyString operator+(const CMyString& Op1, const CMyString& Op2)
 // **************************************************************
 // new y delete
 // **************************************************************
-void* CMyString::operator new (unsigned int uSize)
+void* CMyString::operator new (size_t uSize)
 {
 	return ::operator new(uSize);
 }

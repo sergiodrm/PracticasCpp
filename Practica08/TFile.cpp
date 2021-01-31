@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "TFile.h"
 #include <stdio.h>
 #include <string>
@@ -192,7 +193,7 @@ int FileUtilities::TFile::ReadFile(char* _sOutput_, unsigned int _uNum)
         // Comprobar los permisos con los que se abrio el fichero
         if (m_eOpenMode == FMode::Read || m_eOpenMode == FMode::ReadWrite)
         {
-          iCharRead_ = fread(_sOutput_, sizeof(char), _uNum, m_pFid);
+          iCharRead_ = static_cast<int>(fread(_sOutput_, sizeof(char), _uNum, m_pFid));
           if (iCharRead_ == 0 && feof(m_pFid) != 0)
           {
             // Se ha llegado al final del fichero
@@ -235,7 +236,7 @@ int FileUtilities::TFile::WriteFile(const char* _sString, unsigned int _uNum)
       // Comprobar los permisos con los que se abrio el fichero
       if (m_eOpenMode == FMode::Write || m_eOpenMode == FMode::ReadWrite)
       {
-        iCharWritten_ = fwrite(_sString, sizeof(char), _uNum, m_pFid);
+        iCharWritten_ = static_cast<int>(fwrite(_sString, sizeof(char), _uNum, m_pFid));
       }
       else
       {

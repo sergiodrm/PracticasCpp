@@ -1,6 +1,6 @@
 
 // FileUtilities.cpp
-
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "FileUtilities.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,7 +45,7 @@ int FileUtilities::ReadFile(const FID& _rFid, char* _sOutput_, const unsigned in
     // Comprobar los parametros
     if (_uNum != 0 && _sOutput_)
     {
-      return fread(_sOutput_, sizeof(char), _uNum, _rFid->m_pFile);
+      return static_cast<int>(fread(_sOutput_, sizeof(char), _uNum, _rFid->m_pFile));
     }
   }
   return -1; // La lectura ha fallado por el identificador o por el modo de apertura.
@@ -56,7 +56,7 @@ int FileUtilities::WriteFile(const FID& _rFid, const char* _sString, const unsig
   // Comprobar el identificador y los parametros
   if (_rFid->m_pFile && _sString && _uNum != 0)
   {
-    return fwrite(_sString, sizeof(char), _uNum, _rFid->m_pFile);
+    return static_cast<int>(fwrite(_sString, sizeof(char), _uNum, _rFid->m_pFile));
   }
   return -1;
 }

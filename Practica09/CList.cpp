@@ -1,7 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "CList.h"
 #include <string>
 #include <assert.h>
-
 
 CList::CList() :
   m_pHead(nullptr),

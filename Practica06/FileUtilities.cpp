@@ -1,6 +1,6 @@
 
 // FileUtilities.cpp
-
+#define _CRT_SECURE_NO_WARNINGS 1
 #include "FileUtilities.h"
 #include <stdio.h>
 #include <stdlib.h>

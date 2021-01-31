@@ -18,7 +18,7 @@ public:
 
 	CMyString&       operator+=(const CMyString& Op2);
 
-	void* operator new (unsigned int uSize);
+	void* operator new (size_t uSize);
 	void operator delete (void* ptr);
 
 private:
